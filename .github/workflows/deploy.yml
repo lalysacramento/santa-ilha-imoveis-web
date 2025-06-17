@@ -30,6 +30,9 @@ jobs:
           VITE_VISTA_API_URL: ${{ secrets.VITE_VISTA_API_URL }}
           VITE_VISTA_API_KEY: ${{ secrets.VITE_VISTA_API_KEY }}
 
+      - name: Add a 404.html file
+        run: cp dist/index.html dist/404.html
+
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v4
         with:
