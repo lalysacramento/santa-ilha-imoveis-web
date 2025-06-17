@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Bed, Car, Home, Search, Filter, Grid, List, Heart } from 'lucide-react';
+import { MapPin, Bed, Car, Home, Grid, List, Heart } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 // Mock data - será substituído pela API do Vista
 const allProperties = [
@@ -92,25 +92,23 @@ const allProperties = [
 ];
 
 const Imoveis = () => {
-  const [searchFilters, setSearchFilters] = useState({
-    tipo: '',
-    quartos: '',
-    bairro: '',
-    preco: '',
-    saleType: ''
-  });
+  const [selectedType, setSelectedType] = useState<string>('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [filteredProperties, setFilteredProperties] = useState(allProperties);
+  const navigate = useNavigate();
 
-  const handleSearch = () => {
-    console.log('Filtrar imóveis:', searchFilters);
-    // Aqui será integrada a lógica de filtro real
-    setFilteredProperties(allProperties);
+  const handleTypeFilter = (type: string) => {
+    setSelectedType(type);
+    if (type === '') {
+      setFilteredProperties(allProperties);
+    } else {
+      const filtered = allProperties.filter(property => property.saleType === type);
+      setFilteredProperties(filtered);
+    }
   };
 
   const handlePropertyClick = (propertyId: number) => {
-    console.log('Ver detalhes do imóvel:', propertyId);
-    // Aqui será integrada navegação para página de detalhes
+    navigate(`/imovel/${propertyId}`);
   };
 
   const toggleFavorite = (propertyId: number) => {
@@ -122,8 +120,8 @@ const Imoveis = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      {/* Hero Section with Search */}
-      <section className="santa-ilha-gradient py-16">
+      {/* Hero Section */}
+      <section className="bg-santa-purple py-16">
         <div className="container mx-auto px-4">
           <div className="text-center text-white mb-8">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -134,90 +132,37 @@ const Imoveis = () => {
             </p>
           </div>
 
-          {/* Advanced Search */}
-          <Card className="max-w-6xl mx-auto p-6 bg-white/95 backdrop-blur-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Negócio</label>
-                <Select value={searchFilters.saleType} onValueChange={(value) => setSearchFilters({...searchFilters, saleType: value})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Venda/Locação" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="venda">Venda</SelectItem>
-                    <SelectItem value="locacao">Locação</SelectItem>
-                  </SelectContent>
-                </Select>
+          {/* Simple Filter */}
+          <div className="max-w-md mx-auto">
+            <Card className="p-6 bg-white/95 backdrop-blur-sm">
+              <div className="space-y-4">
+                <label className="text-sm font-medium text-gray-700">Tipo de Negócio</label>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => handleTypeFilter('')}
+                    variant={selectedType === '' ? 'default' : 'outline'}
+                    className={`flex-1 ${selectedType === '' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                  >
+                    Todos
+                  </Button>
+                  <Button
+                    onClick={() => handleTypeFilter('Venda')}
+                    variant={selectedType === 'Venda' ? 'default' : 'outline'}
+                    className={`flex-1 ${selectedType === 'Venda' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                  >
+                    Venda
+                  </Button>
+                  <Button
+                    onClick={() => handleTypeFilter('Locação')}
+                    variant={selectedType === 'Locação' ? 'default' : 'outline'}
+                    className={`flex-1 ${selectedType === 'Locação' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                  >
+                    Locação
+                  </Button>
+                </div>
               </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Tipo</label>
-                <Select value={searchFilters.tipo} onValueChange={(value) => setSearchFilters({...searchFilters, tipo: value})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tipo de imóvel" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="casa">Casa</SelectItem>
-                    <SelectItem value="apartamento">Apartamento</SelectItem>
-                    <SelectItem value="cobertura">Cobertura</SelectItem>
-                    <SelectItem value="terreno">Terreno</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Quartos</label>
-                <Select value={searchFilters.quartos} onValueChange={(value) => setSearchFilters({...searchFilters, quartos: value})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Qtd. Quartos" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">1 quarto</SelectItem>
-                    <SelectItem value="2">2 quartos</SelectItem>
-                    <SelectItem value="3">3 quartos</SelectItem>
-                    <SelectItem value="4">4+ quartos</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Bairro</label>
-                <Input
-                  placeholder="Digite o bairro"
-                  value={searchFilters.bairro}
-                  onChange={(e) => setSearchFilters({...searchFilters, bairro: e.target.value})}
-                  className="bg-white"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Preço</label>
-                <Select value={searchFilters.preco} onValueChange={(value) => setSearchFilters({...searchFilters, preco: value})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Faixa de preço" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ate-150k">Até R$ 150.000</SelectItem>
-                    <SelectItem value="150k-300k">R$ 150.000 - 300.000</SelectItem>
-                    <SelectItem value="300k-500k">R$ 300.000 - 500.000</SelectItem>
-                    <SelectItem value="500k-800k">R$ 500.000 - 800.000</SelectItem>
-                    <SelectItem value="800k-1m">R$ 800.000 - 1.000.000</SelectItem>
-                    <SelectItem value="acima-1m">Acima de R$ 1.000.000</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-end">
-                <Button 
-                  onClick={handleSearch} 
-                  className="w-full santa-ilha-gradient text-white font-semibold h-10"
-                >
-                  <Search className="mr-2 h-4 w-4" />
-                  Buscar
-                </Button>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       </section>
 
@@ -242,7 +187,7 @@ const Imoveis = () => {
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('grid')}
-                  className={viewMode === 'grid' ? 'santa-ilha-purple text-white' : ''}
+                  className={viewMode === 'grid' ? 'bg-santa-purple text-white' : ''}
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
@@ -250,7 +195,7 @@ const Imoveis = () => {
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setViewMode('list')}
-                  className={viewMode === 'list' ? 'santa-ilha-purple text-white' : ''}
+                  className={viewMode === 'list' ? 'bg-santa-purple text-white' : ''}
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -299,7 +244,7 @@ const Imoveis = () => {
                       {property.saleType}
                     </Badge>
                     {property.featured && (
-                      <Badge className="santa-ilha-gradient text-white">
+                      <Badge className="bg-santa-yellow text-black font-medium">
                         Destaque
                       </Badge>
                     )}
@@ -317,14 +262,14 @@ const Imoveis = () => {
                 
                 <CardContent className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
                   <div className="mb-4">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-santa-purple-950 transition-colors">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-santa-purple transition-colors">
                       {property.title}
                     </h3>
                     <div className="flex items-center text-gray-600 mb-2">
                       <MapPin className="h-4 w-4 mr-1" />
                       <span className="text-sm">{property.neighborhood}</span>
                     </div>
-                    <div className="text-2xl font-bold text-santa-purple-950">
+                    <div className="text-2xl font-bold text-santa-purple">
                       {property.price}
                     </div>
                   </div>
@@ -346,7 +291,7 @@ const Imoveis = () => {
 
                   <Button 
                     onClick={() => handlePropertyClick(property.id)}
-                    className="w-full santa-ilha-gradient text-white hover:opacity-90 transition-opacity"
+                    className="w-full bg-santa-purple text-white hover:bg-santa-purple/90 transition-colors"
                   >
                     Ver Detalhes
                   </Button>
@@ -360,7 +305,7 @@ const Imoveis = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="border-santa-purple-950 text-santa-purple-950 hover:bg-santa-purple-950 hover:text-white px-8"
+              className="border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white px-8"
             >
               Carregar Mais Imóveis
             </Button>

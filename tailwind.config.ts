@@ -63,33 +63,9 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Santa Ilha brand colors - exact match with logo
-				'santa-purple': {
-					50: '#f4f3ff',
-					100: '#ebe9fe',
-					200: '#d9d6fe',
-					300: '#bdb4fe',
-					400: '#9b8afb',
-					500: '#7c5ef7',
-					600: '#6b3ff1',
-					700: '#5a2ddd',
-					800: '#4c26ba',
-					900: '#3f2196',
-					950: '#553b92', // Main purple from logo
-				},
-				'santa-yellow': {
-					50: '#fffbeb',
-					100: '#fef3c7',
-					200: '#fde68a',
-					300: '#fcd34d',
-					400: '#fbbf24',
-					500: '#f59e0b',
-					600: '#d97706',
-					700: '#b45309',
-					800: '#92400e',
-					900: '#78350f',
-					950: '#f1c232', // Main yellow from logo
-				}
+				// Santa Ilha brand colors - exact colors from logo
+				'santa-purple': '#3d357e',
+				'santa-yellow': '#edae0f'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
