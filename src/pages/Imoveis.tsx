@@ -1,110 +1,31 @@
 
 import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MapPin, Bed, Car, Home, Grid, List, Heart } from 'lucide-react';
+import { Grid, List } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import PropertyCard from '@/components/PropertyCard';
 import { useNavigate } from 'react-router-dom';
-
-// Mock data - será substituído pela API do Vista
-const allProperties = [
-  {
-    id: 1,
-    title: "Casa Moderna com Piscina",
-    price: "R$ 850.000",
-    type: "Casa",
-    saleType: "Venda",
-    bedrooms: 3,
-    parking: 2,
-    area: "180m²",
-    neighborhood: "Campeche",
-    image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Apartamento Luxo Centro",
-    price: "R$ 3.500/mês",
-    type: "Apartamento",
-    saleType: "Locação",
-    bedrooms: 2,
-    parking: 1,
-    area: "95m²",
-    neighborhood: "Centro",
-    image: "https://images.unsplash.com/photo-1483058712412-4245e9b90334?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: false
-  },
-  {
-    id: 3,
-    title: "Cobertura com Vista Panorâmica",
-    price: "R$ 1.200.000",
-    type: "Cobertura",
-    saleType: "Venda",
-    bedrooms: 4,
-    parking: 3,
-    area: "250m²",
-    neighborhood: "Jurerê",
-    image: "https://images.unsplash.com/photo-1487252665478-49b61b47f302?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: true
-  },
-  {
-    id: 4,
-    title: "Casa na Beira-Mar",
-    price: "R$ 2.100.000",
-    type: "Casa",
-    saleType: "Venda",
-    bedrooms: 5,
-    parking: 4,
-    area: "320m²",
-    neighborhood: "Ribeirão da Ilha",
-    image: "https://images.unsplash.com/photo-1449844908441-8829872d2607?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: false
-  },
-  {
-    id: 5,
-    title: "Apartamento Studio Moderno",
-    price: "R$ 2.200/mês",
-    type: "Apartamento",
-    saleType: "Locação",
-    bedrooms: 1,
-    parking: 1,
-    area: "45m²",
-    neighborhood: "Trindade",
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: false
-  },
-  {
-    id: 6,
-    title: "Casa Familiar Completa",
-    price: "R$ 680.000",
-    type: "Casa",
-    saleType: "Venda",
-    bedrooms: 3,
-    parking: 2,
-    area: "160m²",
-    neighborhood: "João Paulo",
-    image: "https://images.unsplash.com/photo-1448630360428-65456885c650?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    featured: false
-  }
-];
+import { useProperties, SearchFilters } from '@/hooks/useVistaAPI';
 
 const Imoveis = () => {
-  const [selectedType, setSelectedType] = useState<string>('');
+  const [filters, setFilters] = useState<SearchFilters>({});
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [filteredProperties, setFilteredProperties] = useState(allProperties);
   const navigate = useNavigate();
 
+  const { data: properties = [], isLoading, error } = useProperties(filters);
+
   const handleTypeFilter = (type: string) => {
-    setSelectedType(type);
+    const newFilters = { ...filters };
     if (type === '') {
-      setFilteredProperties(allProperties);
+      delete newFilters.categoria;
     } else {
-      const filtered = allProperties.filter(property => property.saleType === type);
-      setFilteredProperties(filtered);
+      newFilters.categoria = type as 'Venda' | 'Locacao';
     }
+    setFilters(newFilters);
   };
 
   const handlePropertyClick = (propertyId: number) => {
@@ -128,7 +49,7 @@ const Imoveis = () => {
               Encontre Seu Imóvel Ideal
             </h1>
             <p className="text-xl opacity-90">
-              {filteredProperties.length} imóveis disponíveis em Florianópolis
+              {isLoading ? 'Carregando...' : `${properties.length} imóveis disponíveis em Florianópolis`}
             </p>
           </div>
 
@@ -140,22 +61,22 @@ const Imoveis = () => {
                 <div className="flex gap-2">
                   <Button
                     onClick={() => handleTypeFilter('')}
-                    variant={selectedType === '' ? 'default' : 'outline'}
-                    className={`flex-1 ${selectedType === '' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                    variant={!filters.categoria ? 'default' : 'outline'}
+                    className={`flex-1 ${!filters.categoria ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
                   >
                     Todos
                   </Button>
                   <Button
                     onClick={() => handleTypeFilter('Venda')}
-                    variant={selectedType === 'Venda' ? 'default' : 'outline'}
-                    className={`flex-1 ${selectedType === 'Venda' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                    variant={filters.categoria === 'Venda' ? 'default' : 'outline'}
+                    className={`flex-1 ${filters.categoria === 'Venda' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
                   >
                     Venda
                   </Button>
                   <Button
-                    onClick={() => handleTypeFilter('Locação')}
-                    variant={selectedType === 'Locação' ? 'default' : 'outline'}
-                    className={`flex-1 ${selectedType === 'Locação' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
+                    onClick={() => handleTypeFilter('Locacao')}
+                    variant={filters.categoria === 'Locacao' ? 'default' : 'outline'}
+                    className={`flex-1 ${filters.categoria === 'Locacao' ? 'bg-santa-purple text-white' : 'border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white'}`}
                   >
                     Locação
                   </Button>
@@ -176,7 +97,7 @@ const Imoveis = () => {
                 Imóveis Encontrados
               </h2>
               <p className="text-gray-600">
-                {filteredProperties.length} resultados encontrados
+                {isLoading ? 'Carregando...' : `${properties.length} resultados encontrados`}
               </p>
             </div>
             
@@ -216,100 +137,97 @@ const Imoveis = () => {
             </div>
           </div>
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className={viewMode === 'grid' 
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+              : "space-y-4"
+            }>
+              {[...Array(6)].map((_, index) => (
+                <Card key={index} className="overflow-hidden">
+                  <Skeleton className="h-64 w-full" />
+                  <div className="p-6 space-y-4">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-8 w-1/3" />
+                    <div className="flex justify-between">
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-20" />
+                    </div>
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
+                <h3 className="text-red-800 font-semibold mb-2">Erro ao carregar imóveis</h3>
+                <p className="text-red-600 text-sm mb-4">
+                  Não foi possível buscar os imóveis. Tente novamente.
+                </p>
+                <Button 
+                  onClick={() => window.location.reload()} 
+                  className="bg-santa-purple text-white hover:bg-santa-purple/90"
+                >
+                  Tentar Novamente
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* No Results */}
+          {!isLoading && !error && properties.length === 0 && (
+            <div className="text-center py-12">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 max-w-md mx-auto">
+                <h3 className="text-gray-800 font-semibold mb-2">Nenhum imóvel encontrado</h3>
+                <p className="text-gray-600 mb-4">
+                  Nenhum imóvel encontrado com os critérios selecionados.
+                </p>
+                <Button 
+                  onClick={() => setFilters({})}
+                  className="bg-santa-purple text-white hover:bg-santa-purple/90"
+                >
+                  Limpar Filtros
+                </Button>
+              </div>
+            </div>
+          )}
+
           {/* Properties Grid/List */}
-          <div className={viewMode === 'grid' 
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
-            : "space-y-4"
-          }>
-            {filteredProperties.map((property) => (
-              <Card key={property.id} className={`overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group ${
-                viewMode === 'list' ? 'flex flex-row' : ''
-              }`}>
-                <div className={`relative ${viewMode === 'list' ? 'w-80' : ''}`}>
-                  <img
-                    src={property.image}
-                    alt={property.title}
-                    className={`object-cover group-hover:scale-105 transition-transform duration-300 ${
-                      viewMode === 'list' ? 'w-full h-full' : 'w-full h-64'
-                    }`}
-                  />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge 
-                      className={`${
-                        property.saleType === 'Venda' 
-                          ? 'bg-green-500 hover:bg-green-600' 
-                          : 'bg-blue-500 hover:bg-blue-600'
-                      } text-white`}
-                    >
-                      {property.saleType}
-                    </Badge>
-                    {property.featured && (
-                      <Badge className="bg-santa-yellow text-black font-medium">
-                        Destaque
-                      </Badge>
-                    )}
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(property.id);
-                    }}
-                    className="absolute top-4 right-4 p-2 bg-white/80 rounded-full hover:bg-white transition-colors"
-                  >
-                    <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
-                  </button>
-                </div>
-                
-                <CardContent className={`p-6 ${viewMode === 'list' ? 'flex-1' : ''}`}>
-                  <div className="mb-4">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-santa-purple transition-colors">
-                      {property.title}
-                    </h3>
-                    <div className="flex items-center text-gray-600 mb-2">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      <span className="text-sm">{property.neighborhood}</span>
-                    </div>
-                    <div className="text-2xl font-bold text-santa-purple">
-                      {property.price}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-gray-600 text-sm mb-6">
-                    <div className="flex items-center">
-                      <Bed className="h-4 w-4 mr-1" />
-                      <span>{property.bedrooms} quartos</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Car className="h-4 w-4 mr-1" />
-                      <span>{property.parking} vagas</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Home className="h-4 w-4 mr-1" />
-                      <span>{property.area}</span>
-                    </div>
-                  </div>
-
-                  <Button 
-                    onClick={() => handlePropertyClick(property.id)}
-                    className="w-full bg-santa-purple text-white hover:bg-santa-purple/90 transition-colors"
-                  >
-                    Ver Detalhes
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          {!isLoading && !error && properties.length > 0 && (
+            <div className={viewMode === 'grid' 
+              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
+              : "space-y-4"
+            }>
+              {properties.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  onPropertyClick={handlePropertyClick}
+                  onToggleFavorite={toggleFavorite}
+                  viewMode={viewMode}
+                />
+              ))}
+            </div>
+          )}
 
           {/* Load More */}
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white px-8"
-            >
-              Carregar Mais Imóveis
-            </Button>
-          </div>
+          {!isLoading && !error && properties.length > 0 && (
+            <div className="text-center mt-12">
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-santa-purple text-santa-purple hover:bg-santa-purple hover:text-white px-8"
+              >
+                Carregar Mais Imóveis
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
