@@ -16,8 +16,8 @@ const Footer = () => {
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              A Santa Ilha Imóveis é sua parceira na realização do sonho da casa própria. 
-              Com experiência, transparência e dedicação, encontramos o imóvel perfeito para você.
+              A Santa Ilha Imóveis é sua parceira na realização do sonho da casa própria em Florianópolis. 
+              Com mais de 10 anos de experiência, transparência e dedicação, encontramos o imóvel perfeito para você.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-santa-purple-400 transition-colors">
@@ -62,7 +62,7 @@ const Footer = () => {
             <div className="space-y-3 text-gray-300">
               <div className="flex items-center space-x-2">
                 <Phone size={16} />
-                <span>(11) 9999-9999</span>
+                <span>(48) 9999-9999</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Mail size={16} />
@@ -70,7 +70,7 @@ const Footer = () => {
               </div>
               <div className="flex items-start space-x-2">
                 <MapPin size={16} className="mt-1 flex-shrink-0" />
-                <span>Rua das Palmeiras, 123<br />Centro - São Paulo/SP</span>
+                <span>Avenida Pequeno Príncipe, 1515<br />Florianópolis/SC</span>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
           <p>&copy; 2024 Santa Ilha Imóveis. Todos os direitos reservados.</p>
           <p className="text-sm mt-2">
-            CRECI: 12345-J | Desenvolvido com ❤️ para realizar sonhos
+            CRECI: 12345-J | A melhor imobiliária de Florianópolis
           </p>
         </div>
       </div>

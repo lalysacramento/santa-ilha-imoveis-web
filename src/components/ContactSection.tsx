@@ -66,7 +66,7 @@ const ContactSection = () => {
             Entre em Contato
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Estamos prontos para ajudar você a encontrar o imóvel ideal. 
+            Estamos prontos para ajudar você a encontrar o imóvel ideal em Florianópolis. 
             Entre em contato conosco!
           </p>
         </div>
@@ -82,7 +82,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Telefone</h3>
-                    <p className="text-gray-600">(11) 9999-9999</p>
+                    <p className="text-gray-600">(48) 9999-9999</p>
                   </div>
                 </div>
               </CardContent>
@@ -110,7 +110,7 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">Endereço</h3>
-                    <p className="text-gray-600">Rua das Palmeiras, 123<br />Centro - São Paulo/SP</p>
+                    <p className="text-gray-600">Avenida Pequeno Príncipe, 1515<br />Florianópolis/SC</p>
                   </div>
                 </div>
               </CardContent>
@@ -176,7 +176,7 @@ const ContactSection = () => {
                         required
                         value={formData.telefone}
                         onChange={(e) => handleInputChange('telefone', e.target.value)}
-                        placeholder="(11) 99999-9999"
+                        placeholder="(48) 99999-9999"
                       />
                     </div>
                     <div>
