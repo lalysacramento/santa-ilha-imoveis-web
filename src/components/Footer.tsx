@@ -1,4 +1,3 @@
-
 import { Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
@@ -10,7 +9,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="mb-4">
               <img 
-                src="/lovable-uploads/3b9131ca-2c13-45e4-a8c3-e8864383fb4f.png" 
+                src="/lovable-uploads/307f6b7e-f9f3-48d1-b058-27c762b1bdbb.png" 
                 alt="Santa Ilha Imóveis" 
                 className="h-12 w-auto filter brightness-0 invert"
               />
@@ -20,10 +19,10 @@ const Footer = () => {
               Com mais de 10 anos de experiência, transparência e dedicação, encontramos o imóvel perfeito para você.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-santa-purple-400 transition-colors">
+              <a href="#" className="text-gray-300 hover:text-santa-yellow-950 transition-colors">
                 <Facebook size={24} />
               </a>
-              <a href="#" className="text-gray-300 hover:text-santa-purple-400 transition-colors">
+              <a href="#" className="text-gray-300 hover:text-santa-yellow-950 transition-colors">
                 <Instagram size={24} />
               </a>
             </div>
@@ -34,22 +33,22 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Links Rápidos</h3>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <a href="#home" className="hover:text-santa-purple-400 transition-colors">
+                <a href="#home" className="hover:text-santa-yellow-950 transition-colors">
                   Início
                 </a>
               </li>
               <li>
-                <a href="#imoveis" className="hover:text-santa-purple-400 transition-colors">
+                <a href="/imoveis" className="hover:text-santa-yellow-950 transition-colors">
                   Imóveis
                 </a>
               </li>
               <li>
-                <a href="#sobre" className="hover:text-santa-purple-400 transition-colors">
+                <a href="#sobre" className="hover:text-santa-yellow-950 transition-colors">
                   Sobre Nós
                 </a>
               </li>
               <li>
-                <a href="#contato" className="hover:text-santa-purple-400 transition-colors">
+                <a href="#contato" className="hover:text-santa-yellow-950 transition-colors">
                   Contato
                 </a>
               </li>

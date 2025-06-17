@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
       {/* Top bar with contact info */}
-      <div className="bg-gradient-to-r from-santa-purple-600 to-santa-purple-500 text-white py-2">
+      <div className="bg-gradient-to-r from-santa-purple-950 to-santa-purple-800 text-white py-2">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center space-x-4">
@@ -35,24 +35,24 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <img 
-              src="/lovable-uploads/3b9131ca-2c13-45e4-a8c3-e8864383fb4f.png" 
+              src="/lovable-uploads/307f6b7e-f9f3-48d1-b058-27c762b1bdbb.png" 
               alt="Santa Ilha Imóveis" 
-              className="h-10 w-auto"
+              className="h-12 w-auto"
             />
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+            <a href="#home" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
               Início
             </a>
-            <a href="#imoveis" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+            <a href="/imoveis" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
               Imóveis
             </a>
-            <a href="#sobre" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+            <a href="#sobre" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
               Sobre
             </a>
-            <a href="#contato" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+            <a href="#contato" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
               Contato
             </a>
             <Button className="santa-ilha-gradient text-white hover:opacity-90 transition-opacity">
@@ -73,16 +73,16 @@ const Header = () => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             <nav className="flex flex-col space-y-4">
-              <a href="#home" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+              <a href="#home" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
                 Início
               </a>
-              <a href="#imoveis" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+              <a href="/imoveis" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
                 Imóveis
               </a>
-              <a href="#sobre" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+              <a href="#sobre" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
                 Sobre
               </a>
-              <a href="#contato" className="text-gray-700 hover:text-santa-purple-600 transition-colors font-medium">
+              <a href="#contato" className="text-gray-700 hover:text-santa-purple-950 transition-colors font-medium">
                 Contato
               </a>
               <Button className="santa-ilha-gradient text-white w-full">

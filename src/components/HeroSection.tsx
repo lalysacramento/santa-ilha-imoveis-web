@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -26,7 +25,7 @@ const HeroSection = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")'
+          backgroundImage: 'url("https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")'
         }}
       ></div>
       
@@ -120,22 +119,22 @@ const HeroSection = () => {
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <Home className="h-6 w-6 text-santa-purple-600 mr-2" />
-                <span className="text-2xl font-bold text-santa-purple-600">500+</span>
+                <Home className="h-6 w-6 text-santa-purple-950 mr-2" />
+                <span className="text-2xl font-bold text-santa-purple-950">500+</span>
               </div>
               <p className="text-gray-600">Imóveis Disponíveis</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <MapPin className="h-6 w-6 text-santa-purple-600 mr-2" />
-                <span className="text-2xl font-bold text-santa-purple-600">50+</span>
+                <MapPin className="h-6 w-6 text-santa-purple-950 mr-2" />
+                <span className="text-2xl font-bold text-santa-purple-950">50+</span>
               </div>
               <p className="text-gray-600">Bairros Atendidos</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center mb-2">
-                <Bed className="h-6 w-6 text-santa-purple-600 mr-2" />
-                <span className="text-2xl font-bold text-santa-purple-600">1000+</span>
+                <Bed className="h-6 w-6 text-santa-purple-950 mr-2" />
+                <span className="text-2xl font-bold text-santa-purple-950">1000+</span>
               </div>
               <p className="text-gray-600">Famílias Realizadas</p>
             </div>

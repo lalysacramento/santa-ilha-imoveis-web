@@ -98,7 +98,7 @@ const FeaturedProperties = () => {
                     <MapPin className="h-4 w-4 mr-1" />
                     <span className="text-sm">{property.neighborhood}</span>
                   </div>
-                  <div className="text-2xl font-bold text-santa-purple-600">
+                  <div className="text-2xl font-bold text-santa-purple-950">
                     {property.price}
                   </div>
                 </div>
@@ -133,7 +133,7 @@ const FeaturedProperties = () => {
           <Button 
             variant="outline" 
             size="lg"
-            className="border-santa-purple-600 text-santa-purple-600 hover:bg-santa-purple-600 hover:text-white"
+            className="border-santa-purple-950 text-santa-purple-950 hover:bg-santa-purple-950 hover:text-white"
           >
             Ver Todos os Imóveis
           </Button>
