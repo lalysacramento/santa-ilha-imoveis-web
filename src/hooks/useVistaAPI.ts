@@ -66,7 +66,6 @@ const fetchProperties = async (filters: SearchFilters = {}): Promise<VistaProper
   // O endpoint correto para LISTAR IMÓVEIS é um palpite: "/imoveis" ou "/imoveis/listar"
   // Se /imoveis não funcionar, tente /imoveis/listar ou /imoveis/pesquisar
   const response = await fetch(`<span class="math-inline">\{API\_BASE\_URL\}/imoveis?</span>{params.toString()}`);
-
   if (!response.ok) {
     // Tente logar a resposta de erro para mais detalhes
     const errorText = await response.text();
